@@ -11,7 +11,7 @@ pipeline {
             }
           }
           steps {
-            sh "/usr/local/bin/kubectl apply -n ${params.PROJECTNAME}-dev -f desc/${params.PROJECTNAME}.yaml"
+            sh "/usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${params.PROJECTNAME}.yaml"
           }
       }
       stage('Run Test in Dev') {
@@ -31,7 +31,7 @@ pipeline {
             }
           }
           steps {
-            sh "/usr/local/bin/kubectl apply -n ${params.PROJECTNAME}-test -f desc/${params.PROJECTNAME}.yaml"
+            sh "/usr/local/bin/kubectl apply -n mondoreacto-test -f desc/${params.PROJECTNAME}.yaml"
           }
       }
       stage('Run Test in Test') {
@@ -51,7 +51,7 @@ pipeline {
             }
           }
           steps {
-            sh "/usr/local/bin/kubectl apply -n ${params.PROJECTNAME}-prod -f desc/${params.PROJECTNAME}.yaml"
+            sh "/usr/local/bin/kubectl apply -n mondoreacto-prod -f desc/${params.PROJECTNAME}.yaml"
           }
       }
       stage('Run Test in Prod') {
