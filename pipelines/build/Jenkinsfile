@@ -1,18 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout Stage') {
-          steps {
-            checkout([$class: 'GitSCM',
-                branches: [[name: '*/master']],
-                userRemoteConfigs: [
-                  [url: 'git@github.com:rkamradt/MondoReacto.git',
-                   credentialsId: 'rkamradt']]])
-            sh """
-              ls MondoReacto
-            """
-          }
-        }
         stage('Build Stage') {
             agent {
               kubernetes {
@@ -23,7 +11,7 @@ pipeline {
               }
             }
             steps {
-              git 'https://github.com/jenkinsci/kubernetes-plugin.git'
+              git 'https://github.com/rkamradt/MondoReacto.git'
               container('maven') {
                 sh 'mvn -B clean install'
               }
