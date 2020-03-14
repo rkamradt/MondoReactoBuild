@@ -13,7 +13,15 @@ pipeline {
             steps {
               git 'https://github.com/rkamradt/MondoReacto.git'
               container('maven') {
-                sh 'mvn -B clean install'
+                sh """
+                  mvn -B clean install
+                  cd incoming-persist
+                  mvn -B jib:build -Dcontainer-repo=registry.container-registry:5000
+                  cd ../incoming-read-service
+                  mvn -B jib:build -Dcontainer-repo=registry.container-registry:5000
+                  cd incoming-service
+                  mvn -B jib:build -Dcontainer-repo=registry.container-registry:5000
+                """
               }
             }
         }
