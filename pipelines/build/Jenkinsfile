@@ -2,11 +2,13 @@ pipeline {
     agent any
     stages {
         stage('Checkout Stage') {
-          checkout([$class: 'GitSCM',
-              branches: [[name: '*/master']],
-              userRemoteConfigs: [
-                [url: 'git@github.com:rkamradt/MondoReacto.git',
-                 credentialsId: 'rkamradt']]])
+          steps {
+            checkout([$class: 'GitSCM',
+                branches: [[name: '*/master']],
+                userRemoteConfigs: [
+                  [url: 'git@github.com:rkamradt/MondoReacto.git',
+                   credentialsId: 'rkamradt']]])
+          }
         }
         stage('Build Stage') {
             agent {
