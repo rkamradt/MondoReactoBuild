@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: kubectl
+      image: linkyard/kubectl:1.14.2
+      command: ["tail", "-f", "/dev/null"]
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "125m"
+        limits:
+          memory: "256Mi"

@@ -1,0 +1,73 @@
+pipeline {
+    agent any
+    stages {
+      stage('Deploy to Dev') {
+          agent {
+            kubernetes {
+              label 'kubectl'
+              idleMinutes 10
+              yamlFile 'pods/kubectl-pod.yaml'
+              defaultContainer 'kubectl'
+            }
+          }
+          steps {
+            sh "/usr/local/bin/kubectl apply -n ${params.PROJECTNAME}-dev -f desc/${params.PROJECTNAME}.yaml"
+          }
+      }
+      stage('Run Test in Dev') {
+          steps {
+            sh '''
+              echo running tests in dev
+            '''
+          }
+      }
+      stage('Deploy to Test') {
+          agent {
+            kubernetes {
+              label 'kubectl'
+              idleMinutes 10
+              yamlFile 'pods/kubectl-pod.yaml'
+              defaultContainer 'kubectl'
+            }
+          }
+          steps {
+            sh "/usr/local/bin/kubectl apply -n ${params.PROJECTNAME}-test -f desc/${params.PROJECTNAME}.yaml"
+          }
+      }
+      stage('Run Test in Test') {
+          steps {
+            sh '''
+              echo running tests in dev
+            '''
+          }
+      }
+      stage('Deploy to Prod') {
+          agent {
+            kubernetes {
+              label 'kubectl'
+              idleMinutes 10
+              yamlFile 'pods/kubectl-pod.yaml'
+              defaultContainer 'kubectl'
+            }
+          }
+          steps {
+            sh "/usr/local/bin/kubectl apply -n ${params.PROJECTNAME}-prod -f desc/${params.PROJECTNAME}.yaml"
+          }
+      }
+      stage('Run Test in Prod') {
+          steps {
+            sh '''
+              echo running tests in dev
+            '''
+          }
+      }
+    }
+    post {
+        always {
+            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+
+        }
+    }
+}

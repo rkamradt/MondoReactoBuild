@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: incoming-service
+  labels:
+    app: incoming-service
+spec:
+  selector:
+    matchLabels:
+      app: incoming-service
+  template:
+    metadata:
+      labels:
+        app: incoming-service
+    spec:
+      containers:
+      - name: test
+        image: 127.0.0.1:32000/incoming-service:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: incoming-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: incoming-service
+  ports:
+  - port: 80
+    targetPort: 8080

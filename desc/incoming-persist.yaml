@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: incoming-persist
+  labels:
+    app: incoming-persist
+spec:
+  selector:
+    matchLabels:
+      app: incoming-persist
+  template:
+    metadata:
+      labels:
+        app: incoming-persist
+    spec:
+      containers:
+      - name: incoming-persist
+        image: 127.0.0.1:32000/incoming-persist:latest
+        ports:
+        - containerPort: 8080
