@@ -19,7 +19,7 @@ pipeline {
                   mvn -B jib:build -Dcontainer-repo=registry.container-registry:5000
                   cd ../incoming-read-service
                   mvn -B jib:build -Dcontainer-repo=registry.container-registry:5000
-                  cd incoming-service
+                  cd ../incoming-service
                   mvn -B jib:build -Dcontainer-repo=registry.container-registry:5000
                 """
               }
