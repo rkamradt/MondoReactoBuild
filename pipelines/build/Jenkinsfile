@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build Stage') {
+            agent {
+              kubernetes {
+              label 'maven'
+              idleMinutes 10
+              yamlFile 'maven-pod.yaml'
+              defaultContainer 'maven'
+              }
+            }
+            steps {
+            checkout([$class: 'GitSCM',
+                    branches: [[name: '*/master']],
+                    userRemoteConfigs: [
+                      [url: 'git@github.com:rkamradt/MondoReacto.git',
+                       credentialsId: 'rkamradt']]])
+              sh """
+                mvn clean install
+              """
+            }
+        }
+    }
+}
