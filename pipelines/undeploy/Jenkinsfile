@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+    stages {
+        stage('Undeploy Stage') {
+            agent {
+              kubernetes {
+                label 'kubectl'
+                idleMinutes 10
+                yamlFile 'pods/kubectl-pod.yaml'
+                defaultContainer 'kubectl'
+              }
+            }
+            steps {
+              sh "/usr/local/bin/kubectl delete -n mondoreacto-${params.NAMESPACE} -f ${params.DEPLOYMENTNAME}.yaml"
+            }
+        }
+    }
+}
