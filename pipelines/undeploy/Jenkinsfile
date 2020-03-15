@@ -11,7 +11,7 @@ pipeline {
               }
             }
             steps {
-              sh "/usr/local/bin/kubectl delete -n mondoreacto-${params.NAMESPACE} -f ${params.DEPLOYMENTNAME}.yaml"
+              sh "/usr/local/bin/kubectl delete -n mondoreacto-${params.NAMESPACE} -f desc/${params.DEPLOYMENTNAME}.yaml"
             }
         }
     }
