@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: incoming-persist
-        image: 127.0.0.1:32000/incoming-persist:latest
+        image: 127.0.0.1:32000/incoming-persist:1.0-SNAPSHOT
         ports:
         - containerPort: 8080

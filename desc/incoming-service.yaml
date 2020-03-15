@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: incoming-service
-        image: registry.container-registry:5000/incoming-service:latest
+        image: 127.0.0.1:32000/incoming-service:1.0-SNAPSHOT
         ports:
         - containerPort: 8080
 ---
