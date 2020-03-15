@@ -17,10 +17,10 @@ spec:
       - name: incoming-persist
         image: 127.0.0.1:32000/incoming-persist:1.0-SNAPSHOT
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 80
+            port: 8080
           initialDelaySeconds: 3
           periodSeconds: 3
