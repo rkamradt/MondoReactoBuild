@@ -21,6 +21,11 @@ spec:
             value: "mongodb"
           - name: KAFKA_BOOTSTRAP_ADDRESS
             value: "kafka"
+          - name: MONGODB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongodb
+                key: mongodb-root-password
         ports:
         - containerPort: 8080
 ---
