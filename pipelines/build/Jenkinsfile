@@ -16,11 +16,11 @@ pipeline {
                 sh """
                   mvn -B clean install
                   cd incoming-persist
-                  mvn -B jib:build -Dcontainer-repo=registry.container-registry:5000
+                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
                   cd ../incoming-read-service
-                  mvn -B jib:build -Dcontainer-repo=registry.container-registry:5000
+                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
                   cd ../incoming-service
-                  mvn -B jib:build -Dcontainer-repo=registry.container-registry:5000
+                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
                 """
               }
             }
