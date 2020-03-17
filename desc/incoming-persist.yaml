@@ -16,11 +16,14 @@ spec:
       containers:
       - name: incoming-persist
         image: 127.0.0.1:32000/incoming-persist:1.0-SNAPSHOT
+        env:
+          - name: SPRING_DATA_MONGODB_HOST
+            value: "mongodb-mongodb"
         ports:
         - containerPort: 8080
         livenessProbe:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 300
+          initialDelaySeconds: 3
           periodSeconds: 3
