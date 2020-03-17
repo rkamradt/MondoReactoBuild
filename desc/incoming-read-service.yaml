@@ -18,7 +18,7 @@ spec:
         image: 127.0.0.1:32000/incoming-read-service:1.0-SNAPSHOT
         env:
           - name: SPRING_DATA_MONGODB_HOST
-            value: "mongodb-mongodb"
+            value: "mongodb"
         ports:
         - containerPort: 8080
         livenessProbe:
