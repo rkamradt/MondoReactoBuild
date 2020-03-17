@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: incoming-read-service
-        image: 127.0.0.1:32000/incoming-read-service:latest
+        image: 127.0.0.1:32000/incoming-read-service:1.0-SNAPSHOT-343eaa0
         env:
           - name: SPRING_DATA_MONGODB_HOST
             value: "mongodb"
