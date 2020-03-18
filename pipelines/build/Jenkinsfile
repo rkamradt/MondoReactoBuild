@@ -17,13 +17,27 @@ pipeline {
                   mvn -B clean install
                   cd incoming-persist
                   mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+                  cd ../incoming-persist-test
+                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
                   cd ../incoming-read-service
                   mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
                   cd ../incoming-service
                   mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+                  cd ../incoming-service-test
+                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+                  cd ../queue-puller
+                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
                 """
               }
             }
+        }
+    }
+    post {
+        always {
+            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+
         }
     }
 }
