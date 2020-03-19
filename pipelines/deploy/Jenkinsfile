@@ -12,8 +12,8 @@ pipeline {
           }
           steps {
             sh '''
-              /usr/local/bin/kubectl delete -n mondoreacto-test -f desc/${params.DEPLOYMENTNAME}.yaml --ignore-not-found
-              /usr/local/bin/kubectl apply -n mondoreacto-test -f desc/${params.DEPLOYMENTNAME}.yaml
+              /usr/local/bin/kubectl delete --ignore-not-found -n mondoreacto-dev -f desc/${params.DEPLOYMENTNAME}.yaml
+              /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${params.DEPLOYMENTNAME}.yaml
             '''
           }
       }
@@ -35,7 +35,7 @@ pipeline {
           }
           steps {
             sh '''
-              /usr/local/bin/kubectl delete -n mondoreacto-test -f desc/${params.DEPLOYMENTNAME}.yaml --ignore-not-found
+              /usr/local/bin/kubectl delete --ignore-not-found -n mondoreacto-test -f desc/${params.DEPLOYMENTNAME}.yaml
               /usr/local/bin/kubectl apply -n mondoreacto-test -f desc/${params.DEPLOYMENTNAME}.yaml
             '''
           }
@@ -58,8 +58,8 @@ pipeline {
           }
           steps {
             sh '''
-              /usr/local/bin/kubectl delete -n mondoreacto-test -f desc/${params.DEPLOYMENTNAME}.yaml --ignore-not-found
-              /usr/local/bin/kubectl apply -n mondoreacto-test -f desc/${params.DEPLOYMENTNAME}.yaml
+              /usr/local/bin/kubectl delete --ignore-not-found -n mondoreacto-prod -f desc/${params.DEPLOYMENTNAME}.yaml
+              /usr/local/bin/kubectl apply -n mondoreacto-prod -f desc/${params.DEPLOYMENTNAME}.yaml
             '''
           }
       }
