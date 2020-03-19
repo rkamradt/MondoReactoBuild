@@ -12,10 +12,10 @@ pipeline {
           }
           steps {
             sh'''#!/bin/bash -xe
-              echo deleting desc/${params.DEPLOYMENTNAME}.yaml
-              /usr/local/bin/kubectl delete --ignore-not-found -n mondoreacto-dev -f desc/${params.DEPLOYMENTNAME}.yaml
-              echo deploying desc/${params.DEPLOYMENTNAME}.yaml
-              /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${params.DEPLOYMENTNAME}.yaml
+              echo deleting desc/${DEPLOYMENTNAME}.yaml
+              /usr/local/bin/kubectl delete --ignore-not-found -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}.yaml
+              echo deploying desc/${DEPLOYMENTNAME}.yaml
+              /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}.yaml
             '''
           }
       }
