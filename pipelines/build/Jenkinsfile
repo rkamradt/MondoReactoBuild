@@ -29,7 +29,17 @@ pipeline {
                   mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
                 """
               }
-            }
+           }
+        }
+        Stage('trigger deployment') {
+          steps {
+              build job: 'deploy', parameters: [
+                  string(name: 'upsteam_project_name', value: env.NAME),
+                  string(name: 'DEPLOYMENTNAME', value: 'incoming-service')
+              ], wait: false
+          }
+        }
+
         }
     }
     post {
