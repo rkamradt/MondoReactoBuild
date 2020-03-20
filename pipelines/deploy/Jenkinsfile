@@ -28,7 +28,7 @@ pipeline {
           }
           steps {
             sh '''
-            /usr/local/bin/kubectl delete -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
+            /usr/local/bin/kubectl delete --ignore-not-found=true -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
             /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
             /usr/local/bin/kubectl logs -f -n mondoreacto-dev pod/${DEPLOYMENTNAME}-test
             '''
