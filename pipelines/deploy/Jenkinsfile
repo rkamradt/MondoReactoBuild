@@ -40,6 +40,7 @@ pipeline {
                   /usr/local/bin/kubectl delete --ignore-not-found=true -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
                   '''
                 }
+              }
           }
       }
       stage('Deploy to Test') {
