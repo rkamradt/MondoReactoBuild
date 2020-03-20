@@ -16,8 +16,7 @@ spec:
         - name: incoming-service-test
           image: 127.0.0.1:32000/incoming-service-test:latest
           env:
-        env:
-          - name: SPRING_DATA_MONGODB_HOST
-            value: "mongodb"
-          - name: KAFKA_BOOTSTRAP_ADDRESS
-            value: "kafka:9092"
+            - name: SPRING_DATA_MONGODB_HOST
+              value: "mongodb"
+            - name: KAFKA_BOOTSTRAP_ADDRESS
+              value: "kafka:9092"
