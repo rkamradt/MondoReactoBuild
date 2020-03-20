@@ -39,8 +39,6 @@ pipeline {
               ], wait: false
           }
         }
-
-        }
     }
     post {
         always {
