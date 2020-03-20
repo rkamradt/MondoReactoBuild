@@ -1,22 +1,13 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: v1
+kind: Pod
 metadata:
   name: incoming-service-test
 spec:
-  backoffLimit: 2 # number of retries before throwing error
-  activeDeadlineSeconds: 2400 # time to allow job to run
-  template:
-    metadata:
-      labels:
-        app: incoming-service-test
-        tier: job
-    spec:
-      restartPolicy: OnFailure
-      containers:
-        - name: incoming-service-test
-          image: 127.0.0.1:32000/incoming-service-test:latest
-          env:
-            - name: SPRING_DATA_MONGODB_HOST
-              value: "mongodb"
-            - name: KAFKA_BOOTSTRAP_ADDRESS
-              value: "kafka:9092"
+  containers:
+    - name: incoming-service-test
+      image: 127.0.0.1:32000/incoming-service-test:latest
+      env:
+        - name: SPRING_DATA_MONGODB_HOST
+          value: "mongodb"
+        - name: KAFKA_BOOTSTRAP_ADDRESS
+          value: "kafka:9092"
