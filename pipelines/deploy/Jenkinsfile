@@ -18,9 +18,20 @@ pipeline {
           }
       }
       stage('Run Test in Dev') {
+          agent {
+            kubernetes {
+              label 'kubectl'
+              idleMinutes 10
+              yamlFile 'pods/kubectl-pod.yaml'
+              defaultContainer 'kubectl'
+            }
+          }
           steps {
             sh '''
-              echo running tests in dev
+            /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
+            /usr/local/bin/kubectl wait -n mondoreacto-dev --for=condition=complete job/${DEPLOYMENTNAME}-test
+            /usr/local/bin/kubectl logs -n mondoreacto-dev job/${DEPLOYMENTNAME}-test
+            /usr/local/bin/kubectl delete -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
             '''
           }
       }
