@@ -28,10 +28,10 @@ pipeline {
           }
           steps {
             sh '''
+            /usr/local/bin/kubectl delete -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
             /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
             /usr/local/bin/kubectl wait --timeout=120s -n mondoreacto-dev --for=condition=complete job/${DEPLOYMENTNAME}-test
             /usr/local/bin/kubectl logs -n mondoreacto-dev job/${DEPLOYMENTNAME}-test
-            /usr/local/bin/kubectl delete -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
             '''
           }
       }
