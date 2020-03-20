@@ -31,7 +31,7 @@ pipeline {
               }
            }
         }
-        Stage('trigger deployment') {
+        stage('trigger deployments') {
           steps {
               build job: 'deploy', parameters: [
                   string(name: 'upsteam_project_name', value: env.NAME),
