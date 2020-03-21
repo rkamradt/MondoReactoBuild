@@ -9,21 +9,17 @@ pipeline {
     }
     stages {
     stage('Build All') {
-        steps {
-          sh "mkdir -p source"
-          dir("source") {
-            git 'https://github.com/rkamradt/MondoReacto.git'
-            container('maven') {
-              sh """
-                mvn -B clean install
-              """
-            }
+      steps {
+          git 'https://github.com/rkamradt/MondoReacto.git'
+          container('maven') {
+            sh """
+              mvn -B clean install
+            """
           }
        }
     }
     stage('Build Incoming Service Image') {
         steps {
-        dir("source") {
           container('maven') {
             sh """
               cd incoming-service
@@ -31,7 +27,6 @@ pipeline {
               cd ../incoming-service-test
               mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
             """
-          }
           }
        }
     }
@@ -44,16 +39,14 @@ pipeline {
       }
     }
     stage('Build Persister Image') {
-        steps {
-          dir("source") {
-            container('maven') {
-              sh """
-                cd incoming-persist
-                mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-                cd ../incoming-persist-test
-                mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-              """
-            }
+      steps {
+          container('maven') {
+            sh """
+              cd incoming-persist
+              mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+              cd ../incoming-persist-test
+              mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+            """
           }
        }
     }
@@ -67,15 +60,13 @@ pipeline {
     }
     stage('Build Incoming Read Service Image') {
         steps {
-          dir("source") {
-            container('maven') {
-              sh """
-                cd incoming-read-service
-                mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-                cd ../incoming-read-service-test
-                mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-              """
-            }
+          container('maven') {
+            sh """
+              cd incoming-read-service
+              mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+              cd ../incoming-read-service-test
+              mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+            """
           }
        }
     }
@@ -92,7 +83,8 @@ pipeline {
         always {
             slackSend (color: '#FFFF00', message: "Jenkins Build ${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
             sh """
-              rm -rf source
+              cd ..
+              rm -rf build
             """
         }
     }
