@@ -29,7 +29,7 @@ pipeline {
           steps {
             sh '''
             /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
-            /usr/local/bin/kubectl wait -n mondoreacto-dev --timeout=120s --for=condition=Success pod/${DEPLOYMENTNAME}-test
+            /usr/local/bin/kubectl wait -n mondoreacto-dev --for=condition=Ready pod/${DEPLOYMENTNAME}-test
             '''
           }
           post {
