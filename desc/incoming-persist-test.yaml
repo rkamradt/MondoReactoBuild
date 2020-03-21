@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: incoming-persist-test
+spec:
+  containers:
+    - name: incoming-persist-test
+      image: 127.0.0.1:32000/incoming-persist-test:latest
+      env:
+        - name: SPRING_DATA_MONGODB_HOST
+          value: "mongodb"
+        - name: KAFKA_BOOTSTRAP_ADDRESS
+          value: "kafka:9092"
+        - name: MONGODB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb
+              key: mongodb-root-password

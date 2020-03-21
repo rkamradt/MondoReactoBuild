@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: incoming-read-service-test
+spec:
+  containers:
+    - name: incoming-service-test
+      image: 127.0.0.1:32000/incoming-read-service-test:latest
+      env:
+        - name: SPRING_DATA_MONGODB_HOST
+          value: "mongodb"
+        - name: KAFKA_BOOTSTRAP_ADDRESS
+          value: "kafka:9092"
+        - name: MONGODB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb
+              key: mongodb-root-password
