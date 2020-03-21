@@ -28,15 +28,15 @@ pipeline {
           }
           steps {
             sh '''
-            /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
-            /usr/local/bin/kubectl wait -n mondoreacto-dev --for=condition=Ready pod/${DEPLOYMENTNAME}-test
+            /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-dev.yaml
+            /usr/local/bin/kubectl wait -n mondoreacto-dev --for=condition=Initailized pod/${DEPLOYMENTNAME}-dev
             '''
           }
           post {
               always {
                   sh '''
-                  /usr/local/bin/kubectl logs -f -n mondoreacto-dev pod/${DEPLOYMENTNAME}-test
-                  /usr/local/bin/kubectl delete --ignore-not-found=true -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
+                  /usr/local/bin/kubectl logs -f -n mondoreacto-dev pod/${DEPLOYMENTNAME}-dev
+                  /usr/local/bin/kubectl delete --ignore-not-found=true -n mondoreacto-dev pod/${DEPLOYMENTNAME}-dev
                   '''
               }
           }
