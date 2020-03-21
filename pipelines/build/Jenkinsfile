@@ -8,36 +8,79 @@ pipeline {
       }
     }
     stages {
-        stage('Build Stage') {
-            steps {
-              git 'https://github.com/rkamradt/MondoReacto.git'
-              container('maven') {
-                sh """
-                  mvn -B clean install
-                  cd incoming-persist
-                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-                  cd ../incoming-persist-test
-                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-                  cd ../incoming-read-service
-                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-                  cd ../incoming-service
-                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-                  cd ../incoming-service-test
-                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-                  cd ../queue-puller
-                  mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-                """
-              }
-           }
-        }
-        stage('trigger deployments') {
-          steps {
-              build job: 'deploy', parameters: [
-                  string(name: 'upsteam_project_name', value: env.NAME),
-                  string(name: 'DEPLOYMENTNAME', value: 'incoming-service')
-              ], wait: false
+    stage('Build All') {
+        steps {
+          git 'https://github.com/rkamradt/MondoReacto.git'
+          container('maven') {
+            sh """
+              mvn -B clean install
+            """
           }
-        }
+       }
+    }
+    stage('Build Incoming Service Image') {
+        steps {
+          git 'https://github.com/rkamradt/MondoReacto.git'
+          container('maven') {
+            sh """
+              cd incoming-service
+              mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+              cd ../incoming-servic-test
+              mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+            """
+          }
+       }
+    }
+    stage('Start Incoming Service') {
+      steps {
+          build job: 'deploy', parameters: [
+              string(name: 'upsteam_project_name', value: env.NAME),
+              string(name: 'DEPLOYMENTNAME', value: 'incoming-service')
+          ], wait: false
+      }
+    }
+    stage('Build Persister Image') {
+        steps {
+          git 'https://github.com/rkamradt/MondoReacto.git'
+          container('maven') {
+            sh """
+              cd incoming-persist
+              mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+              cd ../incoming-persist-test
+              mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+            """
+          }
+       }
+    }
+    stage('Start Persister') {
+      steps {
+          build job: 'deploy', parameters: [
+              string(name: 'upsteam_project_name', value: env.NAME),
+              string(name: 'DEPLOYMENTNAME', value: 'incoming-persist')
+          ], wait: false
+      }
+    }
+    stage('Build Incoming Read Service Image') {
+        steps {
+          git 'https://github.com/rkamradt/MondoReacto.git'
+          container('maven') {
+            sh """
+              cd incoming-read-service
+              mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+              cd ../incoming-read-service-test
+              mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
+            """
+          }
+       }
+    }
+    stage('trigger deployments') {
+      steps {
+          build job: 'deploy', parameters: [
+              string(name: 'upsteam_project_name', value: env.NAME),
+              string(name: 'DEPLOYMENTNAME', value: 'incoming-read-service')
+          ], wait: false
+      }
+    }
     }
     post {
         always {
