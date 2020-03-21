@@ -48,7 +48,7 @@ pipeline {
           dir("source") {
             container('maven') {
               sh """
-                cd source/incoming-persist
+                cd incoming-persist
                 mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
                 cd ../incoming-persist-test
                 mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
@@ -70,7 +70,7 @@ pipeline {
           dir("source") {
             container('maven') {
               sh """
-                cd source/incoming-read-service
+                cd incoming-read-service
                 mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
                 cd ../incoming-read-service-test
                 mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
