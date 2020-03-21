@@ -10,6 +10,7 @@ pipeline {
     stages {
     stage('Build All') {
         steps {
+          sh "mkdir -p source"
           cd source
           git 'https://github.com/rkamradt/MondoReacto.git'
           container('maven') {
