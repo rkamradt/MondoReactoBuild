@@ -24,7 +24,7 @@ pipeline {
             sh """
               cd incoming-service
               mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
-              cd ../incoming-servic-test
+              cd ../incoming-service-test
               mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
             """
           }
