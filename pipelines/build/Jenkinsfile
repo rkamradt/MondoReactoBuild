@@ -20,7 +20,6 @@ pipeline {
     }
     stage('Build Incoming Service Image') {
         steps {
-          git 'https://github.com/rkamradt/MondoReacto.git'
           container('maven') {
             sh """
               cd incoming-service
@@ -41,7 +40,6 @@ pipeline {
     }
     stage('Build Persister Image') {
         steps {
-          git 'https://github.com/rkamradt/MondoReacto.git'
           container('maven') {
             sh """
               cd incoming-persist
@@ -62,7 +60,6 @@ pipeline {
     }
     stage('Build Incoming Read Service Image') {
         steps {
-          git 'https://github.com/rkamradt/MondoReacto.git'
           container('maven') {
             sh """
               cd incoming-read-service
