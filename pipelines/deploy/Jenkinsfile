@@ -28,7 +28,7 @@ pipeline {
           }
           steps {
             sh '''
-            /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-dev.yaml
+            /usr/local/bin/kubectl apply -n mondoreacto-dev -f desc/${DEPLOYMENTNAME}-test.yaml
             /usr/local/bin/kubectl wait -n mondoreacto-dev --for=condition=Initailized pod/${DEPLOYMENTNAME}-dev
             '''
           }
