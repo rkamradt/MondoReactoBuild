@@ -10,6 +10,7 @@ pipeline {
     stages {
     stage('Build All') {
         steps {
+          cd source
           git 'https://github.com/rkamradt/MondoReacto.git'
           container('maven') {
             sh """
@@ -22,7 +23,7 @@ pipeline {
         steps {
           container('maven') {
             sh """
-              cd incoming-service
+              cd source/incoming-service
               mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
               cd ../incoming-service-test
               mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
@@ -42,7 +43,7 @@ pipeline {
         steps {
           container('maven') {
             sh """
-              cd incoming-persist
+              cd source/incoming-persist
               mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
               cd ../incoming-persist-test
               mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
@@ -62,7 +63,7 @@ pipeline {
         steps {
           container('maven') {
             sh """
-              cd incoming-read-service
+              cd source/incoming-read-service
               mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
               cd ../incoming-read-service-test
               mvn -B verify jib:build -Dcontainer-repo=registry.container-registry:5000
@@ -82,6 +83,9 @@ pipeline {
     post {
         always {
             slackSend (color: '#FFFF00', message: "Jenkins Build ${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+            sh """
+              rm -rf source
+            """
         }
     }
 }
