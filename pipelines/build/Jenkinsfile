@@ -1,15 +1,14 @@
 pipeline {
-    agent any
+    agent {
+      kubernetes {
+      label 'maven'
+      idleMinutes 10
+      yamlFile 'pods/maven-pod.yaml'
+      defaultContainer 'maven'
+      }
+    }
     stages {
         stage('Build Stage') {
-            agent {
-              kubernetes {
-              label 'maven'
-              idleMinutes 10
-              yamlFile 'pods/maven-pod.yaml'
-              defaultContainer 'maven'
-              }
-            }
             steps {
               git 'https://github.com/rkamradt/MondoReacto.git'
               container('maven') {
