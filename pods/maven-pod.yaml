@@ -3,7 +3,7 @@ kind: Pod
 spec:
   containers:
     - name: maven
-      image: maven:3.6.3-jdk-11-slim-nexus
+      image: rlkamradt/maven:3.6.3-jdk-11-slim-nexus
       command: ["tail", "-f", "/dev/null"]
       imagePullPolicy: Always
       resources:
