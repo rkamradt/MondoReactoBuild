@@ -41,6 +41,21 @@ pipeline {
               }
           }
       }
+      stage('Tag for Test') {
+          agent {
+            kubernetes {
+              label 'buildctl'
+              idleMinutes 10
+              yamlFile 'pods/buildctl-pod.yaml'
+              defaultContainer 'buildctl'
+            }
+          }
+          steps {
+            sh '''
+              buildctl --help
+            '''
+          }
+      }
       stage('Deploy to Test') {
           agent {
             kubernetes {
