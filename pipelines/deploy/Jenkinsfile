@@ -43,9 +43,10 @@ pipeline {
       }
       stage('Tag for Test') {
           steps {
-            script {
-              docker.withRegistry('http://localhost:32000') {
-                  docker.image('${DEPLOYMENTNAME}').tag('test') 
+            docker.withRegistry('http://localhost:32000') {
+              script {
+                  def image = docker.pull('${DEPLOYMENTNAME}')
+                  image.push('test')
               }
             }
           }
