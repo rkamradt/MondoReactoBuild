@@ -52,7 +52,7 @@ pipeline {
           }
           steps {
             sh '''
-              crictl help
+              crictl img
             '''
           }
       }
