@@ -44,15 +44,15 @@ pipeline {
       stage('Tag for Test') {
           agent {
             kubernetes {
-              label 'buildctl'
+              label 'crictl'
               idleMinutes 10
-              yamlFile 'pods/buildctl-pod.yaml'
-              defaultContainer 'buildctl'
+              yamlFile 'pods/crictl-pod.yaml'
+              defaultContainer 'crictl'
             }
           }
           steps {
             sh '''
-              buildctl b --help
+              crictl help
             '''
           }
       }
