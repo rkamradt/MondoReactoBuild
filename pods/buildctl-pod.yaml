@@ -3,8 +3,8 @@ kind: Pod
 metadata:
   name: buildctl
   annotations:
-    container.apparmor.security.beta.kubernetes.io/buildkitd: unconfined
-    container.seccomp.security.alpha.kubernetes.io/buildkitd: unconfined
+    container.apparmor.security.beta.kubernetes.io/buildctl: unconfined
+    container.seccomp.security.alpha.kubernetes.io/buildctl: unconfined
 spec:
   containers:
   - name: buildctl
