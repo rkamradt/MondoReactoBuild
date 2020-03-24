@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: incoming-service-test
-      image: 127.0.0.1:32000/incoming-read-service-test:latest
+      image: localhost:32000/incoming-read-service-test:latest
       env:
         - name: SPRING_DATA_MONGODB_HOST
           value: "mongodb"

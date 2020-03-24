@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: incoming-persist
-        image: 127.0.0.1:32000/incoming-persist:latest
+        image: localhost:32000/incoming-persist:latest
         env:
           - name: SPRING_DATA_MONGODB_HOST
             value: "mongodb"
