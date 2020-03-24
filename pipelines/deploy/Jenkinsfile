@@ -52,9 +52,7 @@ pipeline {
           }
           steps {
             sh '''
-              ls
-              which buildctl
-              buildctl --help
+              buildctl b --help
             '''
           }
       }
