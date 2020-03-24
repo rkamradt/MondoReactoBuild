@@ -45,7 +45,7 @@ pipeline {
           steps {
             script {
               docker.withRegistry('http://localhost:32000') {
-                  docker.image('${params.DEPLOYMENTNAME}').tag('test') 
+                  docker.image('${DEPLOYMENTNAME}').tag('test') 
               }
             }
           }
