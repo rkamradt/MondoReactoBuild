@@ -41,16 +41,6 @@ pipeline {
               }
           }
       }
-      stage('Tag for Test') {
-          steps {
-            docker.withRegistry('http://localhost:32000') {
-              script {
-                  def image = docker.pull('${DEPLOYMENTNAME}')
-                  image.push('test')
-              }
-            }
-          }
-      }
       stage('Deploy to Test') {
           agent {
             kubernetes {
